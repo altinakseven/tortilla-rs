@@ -5,6 +5,7 @@
 pub mod consts;
 pub mod token;
 pub mod utils;
+pub mod taqueria;
 
 use alkanes_runtime::storage::StoragePointer;
 use alkanes_runtime::{declare_alkane, message::MessageDispatch, runtime::AlkaneResponder};
@@ -13,6 +14,8 @@ use alkanes_support::id::AlkaneId;
 use alkanes_support::response::CallResponse;
 use anyhow::{anyhow, ensure, Result};
 use bitcoin::Transaction;
+use serde::Serialize;
+use serde_with::serde_as;
 
 use metashrew_support::compat::to_arraybuffer_layout;
 use metashrew_support::index_pointer::KeyValuePointer;
@@ -45,6 +48,16 @@ enum TortillaMessage {
     #[opcode(79)]
     #[returns(bool)]
     GetIsRegistered { vout: u128 },
+
+    #[opcode(80)]
+    AddTortillaToTaqueria {
+        taqueria_id: AlkaneId,
+        tortilla_id: AlkaneId,
+    },
+
+    #[opcode(81)]
+    #[returns(Vec<AlkaneId>)]
+    GetTortillasForTaqueria { taqueria_id: AlkaneId },
 
     #[opcode(99)]
     #[returns(String)]
@@ -181,7 +194,41 @@ impl Tortilla {
     }
 
     // ========================================================
+
+    fn add_tortilla_to_taqueria(
+        &self,
+        taqueria_id: AlkaneId,
+        tortilla_id: AlkaneId,
+    ) -> Result<CallResponse> {
+        let context = self.context()?;
+        let taqueria_manager = taqueria::TaqueriaManager::new(
+            StoragePointer::from_keyword("/taquerias/").select(&context.myself.clone().into()),
+        );
+        taqueria_manager.add_tortilla_to_taqueria(&taqueria_id, &tortilla_id)?;
+        Ok(CallResponse::forward(&context.incoming_alkanes))
+    }
+
+    fn get_tortillas_for_taqueria(&self, taqueria_id: AlkaneId) -> Result<CallResponse> {
+        let context = self.context()?;
+        let taqueria_manager = taqueria::TaqueriaManager::new(
+            StoragePointer::from_keyword("/taquerias/").select(&context.myself.clone().into()),
+        );
+        let tortillas = taqueria_manager.get_tortillas_for_taqueria(&taqueria_id)?;
+        let mut response = CallResponse::forward(&context.incoming_alkanes);
+        if let Some(tortillas) = tortillas {
+            #[serde_as]
+            #[derive(Serialize)]
+            struct TortillasWrapper(#[serde_as(as = "Vec<taqueria::AlkaneIdAsBytes>")] Vec<AlkaneId>);
+            let mut buffer = Vec::new();
+            ciborium::into_writer(&TortillasWrapper(tortillas), &mut buffer)?;
+            response.data = buffer;
+        }
+        Ok(response)
+    }
 }
+
+#[cfg(test)]
+mod tests;
 
 impl AlkaneResponder for Tortilla {}
 
