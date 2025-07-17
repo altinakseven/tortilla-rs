@@ -10,26 +10,26 @@ pub mod std;
 #[cfg(test)]
 pub mod utils;
 
+use wasm_bindgen_test::*;
+
 use crate::tests::helpers::{
     clear, create_taqueria_cellpack, create_tortilla_claim_cellpack, create_upgrade_cellpack,
     get_last_outpoint_sheet, init_with_cellpack_pairs, init_with_multiple_cellpacks_with_tx,
     BinaryAndCellpack,
 };
-use crate::tests::std::{alkanes_std_tacoclicker_build, free_mint_build};
+use crate::tests::std::{free_mint_build, tacoclicker_build};
 use crate::tests::utils::{
     create_test_alkane_id, create_test_inputs, create_test_symbol, create_test_token_name,
 };
 use alkanes::indexer::index_block;
 use alkanes_support::cellpack::Cellpack;
 use anyhow::Result;
-use wasm_bindgen_test::wasm_bindgen_test;
 
 const TACOCLICKER_BLOCK: u32 = 1;
 const TACOCLICKER_TX: u32 = 0;
 const FREE_MINT_BLOCK: u32 = 2;
 const FREE_MINT_TX: u32 = 1;
 
-#[cfg(test)]
 #[wasm_bindgen_test]
 fn test_full_game_flow_integration() -> Result<()> {
     clear();
@@ -41,7 +41,7 @@ fn test_full_game_flow_integration() -> Result<()> {
     let cellpack_pairs = vec![
         // 1. System deployment
         BinaryAndCellpack::new(
-            alkanes_std_tacoclicker_build::get_bytes(),
+            tacoclicker_build::get_bytes(),
             Cellpack {
                 target: tacoclicker_id,
                 inputs: vec![0],
@@ -109,7 +109,6 @@ fn test_full_game_flow_integration() -> Result<()> {
     Ok(())
 }
 
-#[cfg(test)]
 #[wasm_bindgen_test]
 fn test_trace_simulation_with_funding() -> Result<()> {
     clear();
@@ -159,7 +158,7 @@ fn test_trace_simulation_with_funding() -> Result<()> {
 
     let test_block = init_with_multiple_cellpacks_with_tx(
         vec![
-            alkanes_std_tacoclicker_build::get_bytes(),
+            tacoclicker_build::get_bytes(),
             vec![],
             vec![],
         ],

@@ -1,9 +1,9 @@
 [package]
-name = "controlled_mint"
+name = "free-mint"
 version = "0.1.0"
 edition = "2021"
-description = "Controlled mint factory for cloning withing smart contract environments"
-authors = ["Bitapes Labs"]
+description = "A modernized and secure version of the free mint alkane contract"
+authors = ["Alkane Team"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -16,15 +16,12 @@ protorune-support = { workspace = true }
 ordinals = { workspace = true }
 anyhow = { workspace = true }
 bitcoin = { workspace = true }
-serde_json = { workspace = true }
-borsh = { workspace = true }
+hex_lit = { workspace = true }
 
 [dev-dependencies]
 once_cell = { workspace = true }
 wasm-bindgen-test = { workspace = true }
-alkanes-runtime = { workspace = true, features = [
-    "test-utils",
-] }
+alkanes-runtime = { workspace = true, features = ["test-utils"] }
 alkanes = { workspace = true, features = [
     "test-utils",
 ] }

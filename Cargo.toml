@@ -1,12 +1,15 @@
 [package]
-name = "tacoclicker-rs"
+name = "tacoclicker-mono"
 version = "0.1.0"
 edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [workspace]
 resolver = "2"
 members = [
-    "submodules/free-mint"
+    "alkanes/*"
 ]
 
 [workspace.dependencies]
@@ -30,6 +33,9 @@ flate2 = "1.0"
 ordinals = { git = "https://github.com/kungfuflex/alkanes-rs" }
 protorune = { git = "https://github.com/kungfuflex/alkanes-rs" }
 alkanes = { git = "https://github.com/kungfuflex/alkanes-rs" }
+borsh = { version = "1.5.7", features = ["derive"] }
+once_cell = "1.19.0"
+sha2 = "0.10.9"
 
 [dependencies]
 alkanes-runtime = { workspace = true }
@@ -65,8 +71,11 @@ dogecoin = []
 bellscoin = []
 fractal = []
 luckycoin = []
+all = []
 
 [build-dependencies]
 anyhow = { workspace = true }
 flate2 = { workspace = true }
 hex = { workspace = true }
+
+

@@ -2,7 +2,7 @@
 // Main library file for tacoclicker-rs
 // Includes test modules and provides the main entry point for the test suite
 
-#[cfg(test)]
+#[cfg(any(feature = "test-utils", test))]
 pub mod tests;
 
 // Main library functionality would go here

@@ -31,7 +31,7 @@ use protorune_support::protostone::{Protostone, ProtostoneEdict};
 use std::str::FromStr;
 
 #[cfg(test)]
-use crate::tests::std::alkanes_std_tacoclicker_build;
+use crate::tests::std::tacoclicker_build;
 
 // Network configuration for testing
 #[cfg(all(
@@ -98,7 +98,7 @@ pub fn init_test_with_cellpack(cellpack: Cellpack) -> Block {
     let block_height = 840000;
     let mut test_block = create_block_with_coinbase_tx(block_height);
 
-    let wasm_binary = alkanes_std_tacoclicker_build::get_bytes();
+    let wasm_binary = tacoclicker_build::get_bytes();
     let raw_envelope = RawEnvelope::from(wasm_binary);
 
     let witness = raw_envelope.to_gzipped_witness();
