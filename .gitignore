@@ -1,7 +1,10 @@
+reference
 node_modules
+target
+*.swp
+*.swo
 dist
 .env
-package-lock.json
 meta.json
 stats.html
 genmerkletree
