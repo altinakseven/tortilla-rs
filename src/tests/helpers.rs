@@ -23,7 +23,6 @@ use metashrew_support::index_pointer::KeyValuePointer;
 use metashrew_support::utils::consensus_encode;
 use ordinals::{Etching, Rune, Runestone};
 use protorune::balance_sheet::load_sheet;
-use protorune::protostone::Protostones;
 use protorune::tables::RuneTable;
 use protorune::test_helpers::{create_block_with_coinbase_tx, get_address, ADDRESS1};
 use protorune_support::balance_sheet::BalanceSheet;
@@ -222,7 +221,7 @@ pub fn create_multiple_cellpack_with_witness_and_txins_edicts(
     edicts: Vec<ProtostoneEdict>,
 ) -> Transaction {
     let protocol_id = 1;
-    let protostones = [
+    let _protostones = [
         match etch {
             true => vec![Protostone {
                 burn: Some(protocol_id),

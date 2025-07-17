@@ -3,26 +3,6 @@
 // Based on patterns from ./reference/alkanes-rs/src/tests/utils.rs
 // Provides utility functions for test setup, data manipulation, and assertions
 
-#[cfg(test)]
-mod tests {
-    use crate::tests::helpers::clear;
-    use anyhow::Result;
-    #[allow(unused_imports)]
-    use metashrew_core::{
-        index_pointer::IndexPointer,
-        println,
-        stdio::{stdout, Write},
-    };
-    use wasm_bindgen_test::wasm_bindgen_test;
-
-    #[wasm_bindgen_test]
-    fn test_basic_functionality() -> Result<()> {
-        clear();
-        // Basic test to ensure test infrastructure works
-        eprintln!("Test infrastructure is working");
-        Ok(())
-    }
-}
 
 // Utility functions for test data manipulation
 pub fn encode_string_to_u128(s: &str) -> u128 {
