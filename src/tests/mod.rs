@@ -19,7 +19,7 @@ use crate::tests::helpers::{
 };
 use {
     metashrew_core::{println, stdio::stdout},
-    std::fmt::Write,
+    core::fmt::Write,
 };
 use crate::tests::std::{controlled_mint_build, free_mint_build, tacoclicker_build};
 use crate::tests::utils::{
