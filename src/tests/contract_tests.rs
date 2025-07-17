@@ -14,10 +14,8 @@ mod tests {
         create_test_alkane_id, create_test_inputs, create_test_token_name, create_test_symbol,
     };
     use alkanes_support::cellpack::Cellpack;
-    use alkanes_support::id::AlkaneId;
     use anyhow::Result;
     use metashrew_core::println;
-    use protorune_support::balance_sheet::BalanceSheetOperations;
     use wasm_bindgen_test::wasm_bindgen_test;
 
     // Test constants for different contracts
@@ -33,7 +31,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_tacoclicker_contract_deployment() -> Result<()> {
         clear();
-        println!("Testing TacoClicker contract deployment and basic functionality");
+        eprintln!("Testing TacoClicker contract deployment and basic functionality");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         
@@ -50,14 +48,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("TacoClicker contract deployment test passed");
+        eprintln!("TacoClicker contract deployment test passed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_controlled_mint_integration() -> Result<()> {
         clear();
-        println!("Testing controlled mint contract integration");
+        eprintln!("Testing controlled mint contract integration");
 
         let controlled_mint_id = create_test_alkane_id(CONTROLLED_MINT_BLOCK, CONTROLLED_MINT_TX);
         
@@ -80,14 +78,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Controlled mint integration test completed");
+        eprintln!("Controlled mint integration test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_merkle_distributor_integration() -> Result<()> {
         clear();
-        println!("Testing merkle distributor contract integration");
+        eprintln!("Testing merkle distributor contract integration");
 
         let merkle_id = create_test_alkane_id(MERKLE_DISTRIBUTOR_BLOCK, MERKLE_DISTRIBUTOR_TX);
         
@@ -110,14 +108,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Merkle distributor integration test completed");
+        eprintln!("Merkle distributor integration test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_sandbox_contract() -> Result<()> {
         clear();
-        println!("Testing sandbox contract functionality");
+        eprintln!("Testing sandbox contract functionality");
 
         let sandbox_id = create_test_alkane_id(SANDBOX_BLOCK, SANDBOX_TX);
         
@@ -139,14 +137,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Sandbox contract test completed");
+        eprintln!("Sandbox contract test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_free_mint_submodule() -> Result<()> {
         clear();
-        println!("Testing free-mint submodule integration");
+        eprintln!("Testing free-mint submodule integration");
 
         let free_mint_id = create_test_alkane_id(6, 400);
         
@@ -183,14 +181,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Free-mint submodule test completed");
+        eprintln!("Free-mint submodule test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_cross_contract_interaction() -> Result<()> {
         clear();
-        println!("Testing cross-contract interactions");
+        eprintln!("Testing cross-contract interactions");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(6, 400);
@@ -238,14 +236,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Cross-contract interaction test completed");
+        eprintln!("Cross-contract interaction test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_contract_state_persistence() -> Result<()> {
         clear();
-        println!("Testing contract state persistence across transactions");
+        eprintln!("Testing contract state persistence across transactions");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let taqueria_id = 1u128;
@@ -287,14 +285,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Contract state persistence test completed");
+        eprintln!("Contract state persistence test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_error_handling_and_reverts() -> Result<()> {
         clear();
-        println!("Testing error handling and revert conditions");
+        eprintln!("Testing error handling and revert conditions");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
 
@@ -322,14 +320,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Error handling test completed");
+        eprintln!("Error handling test completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_gas_and_performance() -> Result<()> {
         clear();
-        println!("Testing gas usage and performance characteristics");
+        eprintln!("Testing gas usage and performance characteristics");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         
@@ -368,7 +366,7 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Gas and performance test completed");
+        eprintln!("Gas and performance test completed");
         Ok(())
     }
 }

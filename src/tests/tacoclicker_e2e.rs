@@ -14,17 +14,16 @@ mod tests {
     use anyhow::Result;
     use bitcoin::OutPoint;
     use metashrew_core::println;
-    use protorune_support::balance_sheet::{BalanceSheetOperations, ProtoruneRuneId};
     use wasm_bindgen_test::wasm_bindgen_test;
 
     // Test constants based on tacoclicker-ts patterns
-    const TACOCLICKER_BLOCK: u32 = 2;
-    const TACOCLICKER_TX: u32 = 190;
+    const TACOCLICKER_BLOCK: u128 = 2;
+    const TACOCLICKER_TX: u128 = 190;
 
     #[wasm_bindgen_test]
     fn test_tacoclicker_deployment_and_basic_functionality() -> Result<()> {
         clear();
-        println!("Testing TacoClicker deployment and basic functionality");
+        eprintln!("Testing TacoClicker deployment and basic functionality");
 
         let block_height = 840_000;
 
@@ -46,7 +45,7 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("TacoClicker deployment successful, sheet: {:?}", sheet);
+        eprintln!("TacoClicker deployment successful, sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -54,7 +53,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_free_mint_initialization() -> Result<()> {
         clear();
-        println!("Testing free-mint initialization with [3, 797, 101] pattern");
+        eprintln!("Testing free-mint initialization with [3, 797, 101] pattern");
 
         let block_height = 840_000;
 
@@ -75,7 +74,7 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Free-mint initialization successful, sheet: {:?}", sheet);
+        eprintln!("Free-mint initialization successful, sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -83,7 +82,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_free_mint_cloning() -> Result<()> {
         clear();
-        println!("Testing free-mint cloning with [6, 797, ...] pattern");
+        eprintln!("Testing free-mint cloning with [6, 797, ...] pattern");
 
         let block_height = 840_000;
 
@@ -116,7 +115,7 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Free-mint cloning successful, sheet: {:?}", sheet);
+        eprintln!("Free-mint cloning successful, sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -124,7 +123,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_taqueria_creation_equivalent_to_typescript() -> Result<()> {
         clear();
-        println!("Testing taqueria creation - equivalent to getTaqueriaContractForAddress");
+        eprintln!("Testing taqueria creation - equivalent to getTaqueriaContractForAddress");
 
         let block_height = 840_000;
 
@@ -154,8 +153,8 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Taqueria creation successful - equivalent to TypeScript getTaqueriaContractForAddress");
-        println!("Sheet: {:?}", sheet);
+        eprintln!("Taqueria creation successful - equivalent to TypeScript getTaqueriaContractForAddress");
+        eprintln!("Sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -163,7 +162,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_unclaimed_tortilla_query_equivalent_to_typescript() -> Result<()> {
         clear();
-        println!("Testing unclaimed tortilla query - equivalent to getUnclaimedTortillaForTaqueria");
+        eprintln!("Testing unclaimed tortilla query - equivalent to getUnclaimedTortillaForTaqueria");
 
         let block_height = 840_000;
 
@@ -210,9 +209,9 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Unclaimed tortilla query successful - equivalent to TypeScript getUnclaimedTortillaForTaqueria");
-        println!("This corresponds to the 'unclaimed_amount' from the TypeScript test");
-        println!("Sheet: {:?}", sheet);
+        eprintln!("Unclaimed tortilla query successful - equivalent to TypeScript getUnclaimedTortillaForTaqueria");
+        eprintln!("This corresponds to the 'unclaimed_amount' from the TypeScript test");
+        eprintln!("Sheet: {:?}", sheet);
 
         // In the TypeScript version, this would decode the response and check unclaimed_amount
         // Here we verify that the query executed successfully
@@ -222,7 +221,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_complete_typescript_equivalent_flow() -> Result<()> {
         clear();
-        println!("Testing complete flow equivalent to TypeScript runGeneralTest");
+        eprintln!("Testing complete flow equivalent to TypeScript runGeneralTest");
 
         let block_height = 840_000;
 
@@ -272,12 +271,12 @@ mod tests {
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
         
-        println!("Complete TypeScript equivalent flow successful!");
-        println!("✓ TacoClicker contract deployed");
-        println!("✓ Taqueria contract retrieved (getTaqueriaContractForAddress equivalent)");
-        println!("✓ Unclaimed tortilla queried (getUnclaimedTortillaForTaqueria equivalent)");
-        println!("✓ Response decoded (unclaimed_amount equivalent)");
-        println!("Final sheet: {:?}", sheet);
+        eprintln!("Complete TypeScript equivalent flow successful!");
+        eprintln!("✓ TacoClicker contract deployed");
+        eprintln!("✓ Taqueria contract retrieved (getTaqueriaContractForAddress equivalent)");
+        eprintln!("✓ Unclaimed tortilla queried (getUnclaimedTortillaForTaqueria equivalent)");
+        eprintln!("✓ Response decoded (unclaimed_amount equivalent)");
+        eprintln!("Final sheet: {:?}", sheet);
 
         // This is equivalent to the TypeScript test returning true
         Ok(())
@@ -286,7 +285,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_tortilla_claiming_with_proper_protostones() -> Result<()> {
         clear();
-        println!("Testing tortilla claiming with proper protostone patterns");
+        eprintln!("Testing tortilla claiming with proper protostone patterns");
 
         let block_height = 840_000;
 
@@ -332,8 +331,8 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Tortilla claiming successful with proper protostones");
-        println!("Sheet: {:?}", sheet);
+        eprintln!("Tortilla claiming successful with proper protostones");
+        eprintln!("Sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -341,7 +340,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_upgrade_functionality() -> Result<()> {
         clear();
-        println!("Testing taqueria upgrade functionality");
+        eprintln!("Testing taqueria upgrade functionality");
 
         let block_height = 840_000;
 
@@ -386,8 +385,8 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Taqueria upgrade successful");
-        println!("Sheet: {:?}", sheet);
+        eprintln!("Taqueria upgrade successful");
+        eprintln!("Sheet: {:?}", sheet);
 
         Ok(())
     }
@@ -395,7 +394,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_error_handling_and_reverts() -> Result<()> {
         clear();
-        println!("Testing error handling and revert conditions");
+        eprintln!("Testing error handling and revert conditions");
 
         let block_height = 840_000;
 
@@ -424,8 +423,8 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Error handling test completed");
-        println!("Sheet: {:?}", sheet);
+        eprintln!("Error handling test completed");
+        eprintln!("Sheet: {:?}", sheet);
 
         // Check for revert context if needed
         let outpoint = OutPoint {
@@ -433,7 +432,7 @@ mod tests {
             vout: 0,
         };
 
-        println!("Outpoint for error checking: {:?}", outpoint);
+        eprintln!("Outpoint for error checking: {:?}", outpoint);
 
         Ok(())
     }
@@ -441,7 +440,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_comprehensive_integration_with_free_mint() -> Result<()> {
         clear();
-        println!("Testing comprehensive integration with free-mint using correct patterns");
+        eprintln!("Testing comprehensive integration with free-mint using correct patterns");
 
         let block_height = 840_000;
 
@@ -510,12 +509,12 @@ mod tests {
         index_block(&test_block, block_height)?;
 
         let sheet = get_last_outpoint_sheet(&test_block)?;
-        println!("Comprehensive integration test successful!");
-        println!("✓ Free-mint initialized with [3, 797, 101]");
-        println!("✓ Free-mint cloned with [6, 797, ...]");
-        println!("✓ TacoClicker deployed and integrated");
-        println!("✓ Complete system working together");
-        println!("Final sheet: {:?}", sheet);
+        eprintln!("Comprehensive integration test successful!");
+        eprintln!("✓ Free-mint initialized with [3, 797, 101]");
+        eprintln!("✓ Free-mint cloned with [6, 797, ...]");
+        eprintln!("✓ TacoClicker deployed and integrated");
+        eprintln!("✓ Complete system working together");
+        eprintln!("Final sheet: {:?}", sheet);
 
         Ok(())
     }

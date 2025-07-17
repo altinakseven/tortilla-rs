@@ -19,7 +19,7 @@ mod tests {
     fn test_basic_functionality() -> Result<()> {
         clear();
         // Basic test to ensure test infrastructure works
-        println!("Test infrastructure is working");
+        eprintln!("Test infrastructure is working");
         Ok(())
     }
 }
@@ -58,7 +58,10 @@ pub fn create_test_txid() -> String {
 
 // Helper for creating test alkane IDs
 pub fn create_test_alkane_id(block: u32, tx: u32) -> alkanes_support::id::AlkaneId {
-    alkanes_support::id::AlkaneId { block, tx }
+    alkanes_support::id::AlkaneId {
+        block: block as u128,
+        tx: tx as u128
+    }
 }
 
 // Helper for creating test cellpack inputs
@@ -126,7 +129,7 @@ mod util_tests {
 
     #[test]
     fn test_token_name_creation() {
-        let (part1, part2) = create_test_token_name("TACOCLICKER");
+        let (part1, _part2) = create_test_token_name("TACOCLICKER");
         assert!(part1 > 0);
         // For short names, part2 might be 0
     }

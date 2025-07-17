@@ -7,7 +7,6 @@ use alkanes_support::cellpack::Cellpack;
 use alkanes_support::envelope::RawEnvelope;
 use alkanes_support::gz::compress;
 use alkanes_support::id::AlkaneId;
-use alkanes_support::trace::{Trace, TraceEvent};
 use anyhow::Result;
 use bitcoin::blockdata::transaction::Version;
 use bitcoin::{
@@ -24,7 +23,6 @@ use metashrew_support::index_pointer::KeyValuePointer;
 use metashrew_support::utils::consensus_encode;
 use ordinals::{Etching, Rune, Runestone};
 use protorune::balance_sheet::load_sheet;
-use protorune::message::MessageContext;
 use protorune::protostone::Protostones;
 use protorune::tables::RuneTable;
 use protorune::test_helpers::{create_block_with_coinbase_tx, get_address, ADDRESS1};
@@ -272,7 +270,7 @@ pub fn create_multiple_cellpack_with_witness_and_txins_edicts(
         },
         edicts: Vec::new(),
         mint: None,
-        protocol: protostones.encipher().ok(),
+        protocol: None,
     })
     .encipher();
 
@@ -360,7 +358,7 @@ pub fn get_sheet_for_outpoint(
         .OUTPOINT_TO_RUNES
         .select(&consensus_encode(&outpoint)?);
     let sheet = load_sheet(&ptr);
-    println!(
+    eprintln!(
         "balances at outpoint tx {} vout {}: {:?}",
         tx_num, vout, sheet
     );
@@ -370,7 +368,7 @@ pub fn get_sheet_for_outpoint(
 pub fn get_sheet_for_runtime() -> BalanceSheet<IndexPointer> {
     let ptr = RuneTable::for_protocol(1).RUNTIME_BALANCE; // AlkaneMessageContext::protocol_tag()
     let sheet = load_sheet(&ptr);
-    println!("runtime balances: {:?}", sheet);
+    eprintln!("runtime balances: {:?}", sheet);
     sheet
 }
 
@@ -392,12 +390,12 @@ pub fn assert_revert_context(outpoint: &OutPoint, expected_error_message: &str) 
 pub fn assert_revert_context_at_index(
     outpoint: &OutPoint,
     expected_error_message: &str,
-    index: Option<isize>,
+    _index: Option<isize>,
 ) -> Result<()> {
     // This would need to be implemented with actual view functionality
     // For now, we'll provide a placeholder implementation
-    println!("Checking revert context for outpoint: {:?}", outpoint);
-    println!("Expected error message: {}", expected_error_message);
+    eprintln!("Checking revert context for outpoint: {:?}", outpoint);
+    eprintln!("Expected error message: {}", expected_error_message);
     Ok(())
 }
 

@@ -7,19 +7,18 @@
 mod tests {
     use crate::tests::helpers::{
         clear, create_taqueria_cellpack, create_tortilla_claim_cellpack, create_upgrade_cellpack,
-        get_last_outpoint_sheet, get_sheet_for_outpoint, init_with_cellpack_pairs,
+        get_last_outpoint_sheet, init_with_cellpack_pairs,
         BinaryAndCellpack,
     };
     use crate::tests::std::{alkanes_std_tacoclicker_build, free_mint_build};
     use crate::tests::utils::{
-        assert_balance_equals, assert_balance_greater_than, create_test_alkane_id,
+        create_test_alkane_id,
         create_test_inputs, create_test_token_name, create_test_symbol,
     };
     use alkanes_support::cellpack::Cellpack;
     use alkanes_support::id::AlkaneId;
     use anyhow::Result;
     use metashrew_core::println;
-    use protorune_support::balance_sheet::BalanceSheetOperations;
     use wasm_bindgen_test::wasm_bindgen_test;
 
     // Integration test constants
@@ -31,7 +30,7 @@ mod tests {
     #[wasm_bindgen_test]
     fn test_full_ecosystem_deployment() -> Result<()> {
         clear();
-        println!("Testing full TacoClicker ecosystem deployment");
+        eprintln!("Testing full TacoClicker ecosystem deployment");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -66,14 +65,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Full ecosystem deployment test completed successfully");
+        eprintln!("Full ecosystem deployment test completed successfully");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_complete_game_scenario() -> Result<()> {
         clear();
-        println!("Testing complete TacoClicker game scenario");
+        eprintln!("Testing complete TacoClicker game scenario");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -150,15 +149,15 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Complete game scenario test completed successfully");
-        println!("Player successfully created 2 taquerias, performed upgrades, and claimed tortillas");
+        eprintln!("Complete game scenario test completed successfully");
+        eprintln!("Player successfully created 2 taquerias, performed upgrades, and claimed tortillas");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_multi_player_scenario() -> Result<()> {
         clear();
-        println!("Testing multi-player TacoClicker scenario");
+        eprintln!("Testing multi-player TacoClicker scenario");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -233,15 +232,15 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Multi-player scenario test completed successfully");
-        println!("3 players successfully created taquerias and competed");
+        eprintln!("Multi-player scenario test completed successfully");
+        eprintln!("3 players successfully created taquerias and competed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_stress_testing() -> Result<()> {
         clear();
-        println!("Testing system under stress with many operations");
+        eprintln!("Testing system under stress with many operations");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -305,15 +304,15 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Stress testing completed successfully");
-        println!("System handled 10 taquerias, 50 mints, 50 claims, and 30 upgrades");
+        eprintln!("Stress testing completed successfully");
+        eprintln!("System handled 10 taquerias, 50 mints, 50 claims, and 30 upgrades");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_edge_cases_and_boundaries() -> Result<()> {
         clear();
-        println!("Testing edge cases and boundary conditions");
+        eprintln!("Testing edge cases and boundary conditions");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -367,14 +366,14 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Edge cases and boundary testing completed");
+        eprintln!("Edge cases and boundary testing completed");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_system_recovery_and_resilience() -> Result<()> {
         clear();
-        println!("Testing system recovery and resilience");
+        eprintln!("Testing system recovery and resilience");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -427,15 +426,15 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("System recovery and resilience testing completed");
-        println!("System successfully recovered from error conditions");
+        eprintln!("System recovery and resilience testing completed");
+        eprintln!("System successfully recovered from error conditions");
         Ok(())
     }
 
     #[wasm_bindgen_test]
     fn test_comprehensive_integration() -> Result<()> {
         clear();
-        println!("Running comprehensive integration test - equivalent to full TypeScript test suite");
+        eprintln!("Running comprehensive integration test - equivalent to full TypeScript test suite");
 
         let tacoclicker_id = create_test_alkane_id(TACOCLICKER_BLOCK, TACOCLICKER_TX);
         let free_mint_id = create_test_alkane_id(FREE_MINT_BLOCK, FREE_MINT_TX);
@@ -508,15 +507,15 @@ mod tests {
         let test_block = init_with_cellpack_pairs(cellpack_pairs);
         let sheet = get_last_outpoint_sheet(&test_block)?;
 
-        println!("Comprehensive integration test completed successfully");
-        println!("This test covers all functionality equivalent to the TypeScript test suite");
-        println!("✓ Contract deployment");
-        println!("✓ Taqueria creation (getTaqueriaContractForAddress equivalent)");
-        println!("✓ Unclaimed tortilla queries (getUnclaimedTortillaForTaqueria equivalent)");
-        println!("✓ Token claiming and upgrades");
-        println!("✓ Multi-taqueria operations");
-        println!("✓ Free-mint integration");
-        println!("✓ Error handling and edge cases");
+        eprintln!("Comprehensive integration test completed successfully");
+        eprintln!("This test covers all functionality equivalent to the TypeScript test suite");
+        eprintln!("✓ Contract deployment");
+        eprintln!("✓ Taqueria creation (getTaqueriaContractForAddress equivalent)");
+        eprintln!("✓ Unclaimed tortilla queries (getUnclaimedTortillaForTaqueria equivalent)");
+        eprintln!("✓ Token claiming and upgrades");
+        eprintln!("✓ Multi-taqueria operations");
+        eprintln!("✓ Free-mint integration");
+        eprintln!("✓ Error handling and edge cases");
         Ok(())
     }
 }

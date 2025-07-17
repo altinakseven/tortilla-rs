@@ -11,7 +11,6 @@
 
 // For now, we'll include a basic placeholder to prevent compilation errors
 pub mod alkanes_std_tacoclicker_build {
-    use hex_lit::hex;
     #[allow(long_running_const_eval)]
     pub fn get_bytes() -> Vec<u8> {
         // Placeholder - will be replaced by actual WASM binary from build script
@@ -20,7 +19,6 @@ pub mod alkanes_std_tacoclicker_build {
 }
 
 pub mod free_mint_build {
-    use hex_lit::hex;
     #[allow(long_running_const_eval)]
     pub fn get_bytes() -> Vec<u8> {
         // Placeholder - will be replaced by actual WASM binary from build script
