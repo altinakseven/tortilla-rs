@@ -40,8 +40,9 @@ fn build_alkane(wasm_str: &str, features: Vec<&'static str>) -> Result<()> {
     }
 }
 
-fn main() {
+fn main() -> Result<()> {
     println!("cargo:rerun-if-changed=crates/");
+    println!("cargo:rerun-if-changed=submodules/");
     let env_var = env::var_os("OUT_DIR").unwrap();
     let base_dir = Path::new(&env_var)
         .parent()
@@ -75,8 +76,16 @@ fn main() {
         .parent()
         .unwrap()
         .join("crates");
+    let submodules_dir = out_dir
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .join("submodules");
     match std::env::set_current_dir(&crates_dir) {
-        Err(_) => return,
+        Err(_) => return Ok(()),
         _ => {}
     };
     let mods = fs::read_dir(&crates_dir)
@@ -233,13 +242,112 @@ fn main() {
     }
 
     fs::write(&write_dir.join("std").join("mod.rs"), mod_content).unwrap();
+    // Process submodules
+    let submodule_mods = if submodules_dir.exists() {
+        process_submodules(&submodules_dir, &wasm_str, &write_dir)?
+    } else {
+        Vec::new()
+    };
+
+    // Combine all modules for mod.rs
+    let mut all_mods = mods.clone();
+    all_mods.extend(submodule_mods);
+
     fs::write(
         &write_dir.join("std").join("mod.rs"),
-        mods.into_iter()
+        all_mods.into_iter()
             .map(|v| v.replace("-", "_"))
             .fold(String::default(), |r, v| {
                 r + "pub mod " + v.as_str() + "_build;\n"
             }),
     )
     .unwrap();
+    Ok(())
+}
+
+fn process_submodules(submodules_dir: &Path, wasm_str: &str, write_dir: &Path) -> Result<Vec<String>> {
+    let mut submodule_names = Vec::new();
+    
+    if let Ok(entries) = fs::read_dir(submodules_dir) {
+        for entry in entries {
+            if let Ok(entry) = entry {
+                let path = entry.path();
+                if path.is_dir() {
+                    let submodule_name = path.file_name()
+                        .and_then(|n| n.to_str())
+                        .unwrap_or_default();
+                    
+                    // Skip hidden directories and non-Rust projects
+                    if submodule_name.starts_with('.') {
+                        continue;
+                    }
+                    
+                    let cargo_toml = path.join("Cargo.toml");
+                    if !cargo_toml.exists() {
+                        continue;
+                    }
+                    
+                    eprintln!("Processing submodule: {}", submodule_name);
+                    
+                    // Change to submodule directory and build
+                    match std::env::set_current_dir(&path) {
+                        Ok(_) => {
+                            if let Err(e) = build_alkane(wasm_str, vec![]) {
+                                eprintln!("Failed to build submodule {}: {}", submodule_name, e);
+                                continue;
+                            }
+                            
+                            let subbed = submodule_name.replace("-", "_");
+                            
+                            // Read the built wasm
+                            let wasm_path = Path::new(&wasm_str)
+                                .join("wasm32-unknown-unknown")
+                                .join("release")
+                                .join(format!("{}.wasm", subbed));
+                            
+                            if let Ok(f) = fs::read(&wasm_path) {
+                                // Compress
+                                if let Ok(compressed) = compress(f.clone()) {
+                                    let _ = fs::write(
+                                        &Path::new(&wasm_str)
+                                            .join("wasm32-unknown-unknown")
+                                            .join("release")
+                                            .join(format!("{}.wasm.gz", subbed)),
+                                        &compressed
+                                    );
+                                }
+                                
+                                // Write build file
+                                let data = hex::encode(&f);
+                                let build_content = format!(
+                                    "use hex_lit::hex;\n#[allow(long_running_const_eval)]\npub fn get_bytes() -> Vec<u8> {{ (&hex!(\"{}\")).to_vec() }}",
+                                    data
+                                );
+                                
+                                let build_file_path = write_dir.join("std").join(format!("{}_build.rs", subbed));
+                                if let Err(e) = fs::write(&build_file_path, build_content) {
+                                    eprintln!("Failed to write build file for {}: {}", submodule_name, e);
+                                    continue;
+                                }
+                                
+                                eprintln!("Successfully processed submodule: {}", submodule_name);
+                                submodule_names.push(subbed);
+                            } else {
+                                eprintln!("Failed to read wasm file for submodule: {}", submodule_name);
+                            }
+                        }
+                        Err(e) => {
+                            eprintln!("Failed to change directory to {}: {}", path.display(), e);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Change back to crates directory
+    let crates_dir = submodules_dir.parent().unwrap().join("crates");
+    let _ = std::env::set_current_dir(&crates_dir);
+    
+    Ok(submodule_names)
 }
