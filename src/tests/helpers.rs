@@ -110,13 +110,13 @@ pub fn init_test_with_cellpack(cellpack: Cellpack) -> Block {
 }
 
 /// Helper function that accepts a vector of BinaryAndCellpack structs
-pub fn init_with_cellpack_pairs(cellpack_pairs: Vec<BinaryAndCellpack>) -> Block {
+pub fn init_with_cellpack_pairs(cellpack_pairs: Vec<BinaryAndCellpack>) -> (Block, Vec<Cellpack>) {
     let (binaries, cellpacks): (Vec<Vec<u8>>, Vec<Cellpack>) = cellpack_pairs
         .into_iter()
         .map(|pair| (pair.binary, pair.cellpack))
         .unzip();
 
-    init_with_multiple_cellpacks_with_tx(binaries, cellpacks)
+    (init_with_multiple_cellpacks_with_tx(binaries, cellpacks.clone()), cellpacks)
 }
 
 /// Helper function that accepts a vector of BinaryAndCellpack structs with input
@@ -357,7 +357,7 @@ pub fn get_sheet_for_outpoint(
         .OUTPOINT_TO_RUNES
         .select(&consensus_encode(&outpoint)?);
     let sheet = load_sheet(&ptr);
-    eprintln!(
+    println!(
         "balances at outpoint tx {} vout {}: {:?}",
         tx_num, vout, sheet
     );
@@ -367,7 +367,7 @@ pub fn get_sheet_for_outpoint(
 pub fn get_sheet_for_runtime() -> BalanceSheet<IndexPointer> {
     let ptr = RuneTable::for_protocol(1).RUNTIME_BALANCE; // AlkaneMessageContext::protocol_tag()
     let sheet = load_sheet(&ptr);
-    eprintln!("runtime balances: {:?}", sheet);
+    println!("runtime balances: {:?}", sheet);
     sheet
 }
 
@@ -393,8 +393,8 @@ pub fn assert_revert_context_at_index(
 ) -> Result<()> {
     // This would need to be implemented with actual view functionality
     // For now, we'll provide a placeholder implementation
-    eprintln!("Checking revert context for outpoint: {:?}", outpoint);
-    eprintln!("Expected error message: {}", expected_error_message);
+    println!("Checking revert context for outpoint: {:?}", outpoint);
+    println!("Expected error message: {}", expected_error_message);
     Ok(())
 }
 
